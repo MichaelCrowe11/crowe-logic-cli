@@ -1,0 +1,20 @@
+# Crowe Logic CLI Configuration
+# Place this file in your home directory (~/.crowelogic.toml) or project root.
+
+# Provider: "azure" or "openai_compatible"
+provider = "azure"
+
+[azure]
+endpoint = "https://<your-resource>.cognitiveservices.azure.com"
+deployment = "<deployment-name>"  # e.g., "claude-opus-4-5", "gpt-4o"
+api_key = "<your-api-key>"
+api_version = "2024-02-15-preview"
+
+# Optional: Use Azure Key Vault for API key (instead of api_key above)
+# keyvault_url = "https://<your-vault>.vault.azure.net/"
+# keyvault_secret = "crowe-logic-api-key"
+
+# [openai_compatible]
+# base_url = "https://<your-endpoint>"
+# model = "<model-id>"
+# api_key = "<your-api-key>"

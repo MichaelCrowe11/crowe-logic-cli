@@ -1,0 +1,70 @@
+Crowe Logic CLI
+Copyright 2024-2026 Michael Benjamin Crowe
+
+This product includes software developed by Michael Benjamin Crowe
+for the Crowe Logic project (https://github.com/michaelcrowe/crowe-logic-cli).
+
+================================================================================
+
+CROWE LOGIC CLI - Quantum-Enhanced Scientific Reasoning Platform
+
+A command-line interface for AI-powered scientific computing, molecular
+dynamics analysis, and quantum-inspired reasoning, powered by Azure Claude
+Opus 4.5.
+
+================================================================================
+
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+
+This project incorporates components from the following third-party projects:
+
+1. Typer (https://github.com/tiangolo/typer)
+   License: MIT
+   Copyright (c) Sebastián Ramírez
+
+2. Rich (https://github.com/Textualize/rich)
+   License: MIT
+   Copyright (c) Will McGugan
+
+3. HTTPX (https://github.com/encode/httpx)
+   License: BSD 3-Clause
+   Copyright (c) Encode
+
+4. Azure SDK for Python (https://github.com/Azure/azure-sdk-for-python)
+   License: MIT
+   Copyright (c) Microsoft Corporation
+
+5. HTTPX-SSE (https://github.com/florimondmanca/httpx-sse)
+   License: MIT
+   Copyright (c) Florian Mounier
+
+6. Tomli (https://github.com/hukkin/tomli)
+   License: MIT
+   Copyright (c) Taneli Hukkinen
+
+================================================================================
+
+TRADEMARKS
+
+"Crowe Logic" and the Crowe Logic logo are trademarks of Michael Benjamin Crowe.
+
+"Claude" and "Anthropic" are trademarks of Anthropic, PBC.
+
+"Azure" and "Microsoft" are trademarks of Microsoft Corporation.
+
+This software is not affiliated with or endorsed by Anthropic or Microsoft
+unless explicitly stated.
+
+================================================================================
+
+PATENT NOTICE
+
+This software implements quantum-inspired algorithms including:
+- Variational Quantum Eigensolver (VQE) inspired approaches
+- Quantum Approximate Optimization Algorithm (QAOA) inspired approaches
+- Quantum kernel methods for molecular similarity
+
+These implementations are classical approximations inspired by quantum
+computing principles and do not require quantum hardware.
+
+================================================================================

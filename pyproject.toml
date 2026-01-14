@@ -1,0 +1,96 @@
+[project]
+name = "crowe-logic-cli"
+version = "1.0.0"
+description = "Quantum-Enhanced Scientific Reasoning CLI powered by Azure Claude Opus 4.5"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "Apache-2.0"}
+authors = [{ name = "Michael Benjamin Crowe", email = "michael@crowelogic.com" }]
+keywords = [
+    "ai", "cli", "azure", "claude", "quantum", "scientific-computing",
+    "molecular-dynamics", "research", "crowe-logic", "anthropic"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+dependencies = [
+  "typer>=0.12.5",
+  "rich>=13.7.1",
+  "httpx>=0.27.0",
+  "httpx-sse>=0.4.0",
+  "tomli>=2.0.1;python_version<'3.11'",
+  "azure-keyvault-secrets>=4.7.0",
+  "azure-identity>=1.15.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/michaelcrowe/crowe-logic-cli"
+Documentation = "https://github.com/michaelcrowe/crowe-logic-cli#readme"
+Repository = "https://github.com/michaelcrowe/crowe-logic-cli"
+Issues = "https://github.com/michaelcrowe/crowe-logic-cli/issues"
+Changelog = "https://github.com/michaelcrowe/crowe-logic-cli/blob/main/CHANGELOG.md"
+
+[project.scripts]
+crowelogic = "crowe_logic_cli.main:app"
+
+[tool.uv]
+# Optional: if you use uv, it will pick up dependencies from [project].
+
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/crowe_logic_cli"]
+
+[project.optional-dependencies]
+build = ["pyinstaller>=6.0.0"]
+dev = [
+  "pytest>=8.0.0",
+  "pytest-cov>=4.1.0",
+  "mypy>=1.8.0",
+  "ruff>=0.2.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["src/crowe_logic_cli"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "raise NotImplementedError",
+  "if TYPE_CHECKING:",
+]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]

@@ -1,0 +1,19 @@
+# Example: Using Azure Key Vault for secrets
+
+provider = "azure_ai_inference"
+
+[azure_ai_inference]
+endpoint = "https://ai-michael9466ai832340755092.cognitiveservices.azure.com"
+model = "claude-opus-4-5"
+# Option 1: Store secret directly (less secure)
+# api_key = "your-api-key-here"
+
+# Option 2: Reference Azure Key Vault (recommended for production)
+api_key = "keyvault://your-vault-name/crowe-api-key"
+api_version = "2024-05-01-preview"
+
+# To use Key Vault:
+# 1. Create a Key Vault: az keyvault create --name your-vault-name --resource-group your-rg
+# 2. Store your secret: az keyvault secret set --vault-name your-vault-name --name crowe-api-key --value "YOUR_API_KEY"
+# 3. Ensure you're authenticated: az login
+# 4. The CLI will automatically retrieve the secret when it starts
