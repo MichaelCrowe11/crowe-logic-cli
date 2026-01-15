@@ -1,33 +1,171 @@
 # Crowe Logic CLI
 
-A standalone CLI you can customize (UX, commands, workflows) while connecting to your own model endpoints.
+[![PyPI version](https://badge.fury.io/py/crowe-logic-cli.svg)](https://pypi.org/project/crowe-logic-cli/)
+[![Python](https://img.shields.io/pypi/pyversions/crowe-logic-cli.svg)](https://pypi.org/project/crowe-logic-cli/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Tests](https://github.com/michaelcrowe/crowe-logic-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/michaelcrowe/crowe-logic-cli/actions/workflows/ci.yml)
 
-## Install (dev)
+A powerful, multi-provider AI CLI with quantum-enhanced scientific reasoning capabilities. Connect to Azure Claude, Azure OpenAI, or any OpenAI-compatible endpoint.
 
-From this folder:
+## Features
+
+- **Multi-Provider Support**: Azure Claude (Anthropic), Azure OpenAI, OpenAI-compatible APIs
+- **Streaming Responses**: Real-time output with token tracking
+- **Cost Tracking**: Monitor usage and costs across sessions
+- **Retry Logic**: Automatic exponential backoff on failures
+- **Output Formats**: Text, JSON, Markdown with clipboard support
+- **Shell Completion**: Tab completion for bash, zsh, fish
+- **Azure Key Vault**: Secure credential storage
+- **Conversation History**: Save, load, and resume sessions
+- **Plugin System**: Extensible agent architecture
+
+## Installation
+
+### From PyPI (recommended)
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+pip install crowe-logic-cli
+```
+
+### From source
+
+```bash
+git clone https://github.com/michaelcrowe/crowe-logic-cli.git
+cd crowe-logic-cli
 pip install -e .
+```
+
+### Enable shell completion
+
+```bash
+# For bash
+crowelogic --install-completion bash
+
+# For zsh
+crowelogic --install-completion zsh
+
+# For fish
+crowelogic --install-completion fish
 ```
 
 ## Quick Start
 
-Run the interactive configuration wizard:
+### 1. Configure your provider
 
 ```bash
+# Interactive setup wizard (recommended)
 crowelogic config run
+
+# Or set environment variables
+export CROWE_PROVIDER=azure
+export CROWE_AZURE_ENDPOINT=https://<your-resource>.openai.azure.com
+export CROWE_AZURE_DEPLOYMENT=<deployment-name>
+export CROWE_AZURE_API_KEY=<key>
 ```
 
-This will guide you through:
-- Provider selection (Azure AI Inference, Azure OpenAI, OpenAI-compatible)
-- Endpoint and credential setup
-- Optional Azure Key Vault integration
-- Connection testing
+### 2. Verify connectivity
+
+```bash
+crowelogic doctor run
+```
+
+### 3. Start chatting
+
+```bash
+# Single-shot chat
+crowelogic chat run "What is quantum entanglement?"
+
+# Interactive multi-turn session
+crowelogic interactive run
+
+# Quick questions
+crowelogic ask "Explain Docker in one sentence"
+```
+
+## Commands
+
+### Chat & Interaction
+
+```bash
+# Chat with JSON output and clipboard copy
+crowelogic chat run "Explain REST APIs" --output json --copy
+
+# Chat with retry logic (default: 3 retries)
+crowelogic chat run "Complex question" --retry 5
+
+# Interactive mode with streaming
+crowelogic interactive run
+
+# Quick ask with sub-commands
+crowelogic ask explain "quantum computing"
+crowelogic ask how "deploy to kubernetes"
+crowelogic ask fix "error: module not found"
+```
+
+### Cost Tracking
+
+```bash
+# View usage summary
+crowelogic costs summary
+
+# View today's usage
+crowelogic costs today
+
+# View last 7 days
+crowelogic costs week
+
+# Export as JSON
+crowelogic costs summary --output json
+
+# Clear usage history
+crowelogic costs clear
+```
+
+### Specialized Commands
+
+```bash
+# Quantum-enhanced reasoning (4-stage framework)
+crowelogic quantum run "Analyze the implications of..."
+
+# Code analysis
+crowelogic code review -f myfile.py
+crowelogic code explain -f complex_algorithm.py
+crowelogic code fix -f buggy.py
+
+# Research paper analysis
+crowelogic research review -f paper.pdf
+
+# Molecular dynamics
+crowelogic molecular analyze "H2O structure"
+```
+
+### Conversation History
+
+```bash
+# List saved conversations
+crowelogic history list
+
+# Resume a session
+crowelogic history resume my-conversation
+
+# Delete a conversation
+crowelogic history delete old-chat
+```
+
+### Agents & Plugins
+
+```bash
+# List available agents
+crowelogic agent list
+
+# Run an agent
+crowelogic agent run code-reviewer "Review this code" -f src/main.py
+
+# List plugins
+crowelogic plugins list
+```
 
 ## Configuration
-
-You can configure the CLI using **environment variables** or a **config file**.
 
 ### Option A: Config wizard (easiest)
 
@@ -35,171 +173,32 @@ You can configure the CLI using **environment variables** or a **config file**.
 crowelogic config run
 ```
 
-### Option B: Config file (manual)
+### Option B: Config file
 
-Copy the example and fill in your values:
+Create `~/.crowelogic.toml`:
 
-```bash
-cp .crowelogic.toml.example ~/.crowelogic.toml
-# Edit ~/.crowelogic.toml with your endpoint details
+```toml
+provider = "azure"
+
+[azure]
+endpoint = "https://<your-resource>.openai.azure.com"
+deployment = "<deployment-name>"
+api_key = "<api-key>"
+api_version = "2024-02-15-preview"
 ```
-
-The CLI searches for `.crowelogic.toml` in:
-1. Current directory (and parents)
-2. Home directory (`~/.crowelogic.toml`)
 
 ### Option C: Environment variables
 
 ```bash
 export CROWE_PROVIDER=azure
-export CROWE_AZURE_ENDPOINT=https://<your-resource>.openai.azure.com
+export CROWE_AZURE_ENDPOINT=https://<resource>.openai.azure.com
 export CROWE_AZURE_DEPLOYMENT=<deployment-name>
-export CROWE_AZURE_API_KEY=<key>
-export CROWE_AZURE_API_VERSION=2024-02-15-preview
+export CROWE_AZURE_API_KEY=<api-key>
 ```
 
-## Commands
+### Azure Key Vault Integration
 
-### Setup and diagnostics
-
-```bash
-# Interactive setup wizard
-crowelogic config run
-
-# Verify connectivity with enhanced diagnostics
-crowelogic doctor run
-```
-
-### Chat
-
-```bash
-# Single-shot chat
-crowelogic chat run "What is the capital of France?"
-
-# Interactive multi-turn session with streaming and token tracking
-crowelogic interactive run
-
-# Save conversation during interactive session
-# (Type /save <name> in the REPL)
-
-# Resume a saved conversation
-crowelogic history resume my-conversation
-```
-
-### Conversation history
-
-```bash
-# List saved conversations
-crowelogic history list
-
-# Load and display a conversation
-crowelogic history load my-conversation
-
-# Resume interactive session from history
-crowelogic history resume my-conversation
-
-# Delete a conversation
-crowelogic history delete my-conversation
-```
-
-### Agents and plugins
-
-```bash
-# List available agents from plugins directory
-crowelogic agent list
-
-# Run an agent with a prompt
-crowelogic agent run code-reviewer "Review this function"
-
-# List plugins
-crowelogic plugins list
-
-# Show plugin details
-crowelogic plugins show hookify
-```
-
-### Interactive mode commands
-
-In `crowelogic interactive run`:
-- `/clear` — Clear conversation history
-- `/save <name>` — Save conversation to history
-- `/system` — Show current system prompt
-- `/exit` — Exit (shows session token usage)
-
-Token tracking is automatically displayed after each response and on exit.
-
-## For OpenAI-compatible endpoints
-
-If your Azure endpoint uses a generic OpenAI-compatible API (not `*.openai.azure.com`):
-
-```toml
-provider = "openai_compatible"
-
-[openai_compatible]
-base_url = "https://<your-endpoint>"
-model = "<model-id>"
-api_key = "<your-api-key>"
-```
-
-## CLI Flags Reference
-
-### Chat command
-
-```bash
-crowelogic chat run [OPTIONS] PROMPT
-
-Options:
-  -s, --system TEXT   Custom system prompt
-  --help              Show help message
-```
-
-### Interactive command
-
-```bash
-crowelogic interactive run [OPTIONS]
-
-Options:
-  -s, --system TEXT   Custom system prompt (default: "You are a helpful assistant.")
-  --no-stream         Disable streaming responses
-  --help              Show help message
-```
-
-### Agent command
-
-```bash
-crowelogic agent run [OPTIONS] AGENT_NAME PROMPT
-
-Options:
-  -f, --file PATH     Include file content as context
-  --no-stream         Disable streaming responses
-  --help              Show help message
-
-Examples:
-  crowelogic agent run code-reviewer "Review this code" -f src/main.py
-  crowelogic agent run ./my-agent.md "Help me with this task"
-```
-
-### History command
-
-```bash
-crowelogic history resume [OPTIONS] NAME
-
-Options:
-  --no-stream         Disable streaming responses
-  --help              Show help message
-```
-
-### Config command
-
-```bash
-crowelogic config show      # Display current configuration
-crowelogic config path      # Show config file search paths
-crowelogic config init      # Create a template config file
-```
-
-## Azure Key Vault Integration
-
-Store API keys securely using Azure Key Vault:
+Store credentials securely:
 
 ```toml
 [azure]
@@ -208,101 +207,108 @@ deployment = "gpt-4"
 api_key = "keyvault://my-vault/my-secret-name"
 ```
 
-The CLI uses `DefaultAzureCredential` for authentication, which supports:
-- Environment variables (`AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`)
-- Managed Identity (when running in Azure)
-- Azure CLI (`az login`)
-- Visual Studio Code credentials
+## CLI Reference
+
+### Chat command
+
+```bash
+crowelogic chat run [OPTIONS] PROMPT
+
+Options:
+  -s, --system TEXT   Custom system prompt
+  -o, --output TEXT   Output format: text, json, markdown
+  -c, --copy          Copy response to clipboard
+  -r, --retry INT     Number of retries (default: 3)
+  -q, --quiet         Suppress retry messages
+  --help              Show help
+```
+
+### Interactive mode
+
+```bash
+crowelogic interactive run [OPTIONS]
+
+Options:
+  -s, --system TEXT   Custom system prompt
+  --no-stream         Disable streaming
+  --help              Show help
+
+In-session commands:
+  /clear    Clear conversation history
+  /save     Save conversation to history
+  /system   Show current system prompt
+  /exit     Exit (shows token usage)
+```
 
 ## Troubleshooting
 
-### Configuration errors
-
-**"Missing required config for Azure provider"**
-
-Ensure all required fields are set. For Azure:
-```bash
-export CROWE_AZURE_ENDPOINT=https://<resource>.openai.azure.com
-export CROWE_AZURE_DEPLOYMENT=<deployment-name>
-export CROWE_AZURE_API_KEY=<api-key>
-```
-
-Or in `.crowelogic.toml`:
-```toml
-provider = "azure"
-
-[azure]
-endpoint = "https://<resource>.openai.azure.com"
-deployment = "<deployment-name>"
-api_key = "<api-key>"
-```
-
-### Connection errors
-
-**401 Unauthorized**
-- Verify your API key is correct
-- Check that the key has access to the specified deployment
-- For Key Vault: ensure your Azure identity has `Get` permission on secrets
-
-**404 Not Found**
-- Check the endpoint URL format
-- Verify the deployment name exists in your Azure resource
-- Ensure the API version is supported
-
-**429 Too Many Requests**
-- You've hit rate limits; wait and retry
-- Consider implementing request throttling
-
-**Timeout errors**
-- Check network connectivity
-- Verify the endpoint is accessible from your network
-- Try increasing timeout if using a slow connection
-
-### Diagnostic commands
+### Run diagnostics
 
 ```bash
-# Test configuration and connectivity
 crowelogic doctor run
-
-# Show current configuration (masks API keys)
-crowelogic config show
-
-# Show where config files are searched
-crowelogic config path
 ```
+
+### Common errors
+
+| Error | Solution |
+|-------|----------|
+| 401 Unauthorized | Check API key and permissions |
+| 404 Not Found | Verify endpoint URL and deployment name |
+| 429 Rate Limited | Wait or increase `--retry` count |
+| Timeout | Check network; CLI auto-retries |
 
 ## Development
 
-### Install dev dependencies
+### Setup
 
 ```bash
+# Clone and install
+git clone https://github.com/michaelcrowe/crowe-logic-cli.git
+cd crowe-logic-cli
 pip install -e ".[dev]"
+
+# Install pre-commit hooks
+pre-commit install
 ```
 
-### Run tests
+### Testing
 
 ```bash
-pytest                    # Run all tests
-pytest -v                 # Verbose output
-pytest --cov              # With coverage report
-pytest tests/test_config.py  # Run specific test file
-```
+# Run tests
+make test
 
-### Code quality
-
-```bash
-# Type checking
-mypy src/crowe_logic_cli
+# With coverage
+pytest --cov
 
 # Linting
-ruff check src/crowe_logic_cli
+make lint
 
-# Format check
-ruff format --check src/crowe_logic_cli
+# Format
+make format
 ```
 
-## Notes
+### Building
 
-- This project is intentionally minimal; add commands as your org's workflows solidify.
-- You can pair this with the repository's existing plugin content (agents/commands/hooks) as source material, but this CLI is designed to run independently.
-- Add `.crowelogic.toml` to your `.gitignore` to avoid committing API keys.
+```bash
+# Build standalone executable
+make build
+
+# Build source distribution
+make dist
+
+# Generate Homebrew formula
+make formula
+```
+
+## License
+
+Apache 2.0 - See [LICENSE](LICENSE) for details.
+
+## Author
+
+**Michael Benjamin Crowe**
+Email: michael@crowelogic.com
+
+---
+
+Built with [Typer](https://typer.tiangolo.com/) and [Rich](https://rich.readthedocs.io/)

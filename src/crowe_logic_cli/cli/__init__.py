@@ -1,34 +1,12 @@
-# Copyright 2024-2026 Michael Benjamin Crowe
-# Licensed under the Apache License, Version 2.0
-
-"""CLI command modules."""
-
+"""CLI modules for Crowe Logic."""
 from . import (
-    chat,
-    interactive,
-    doctor,
-    plugins,
-    agent,
-    config_cmd,
-    history,
-    research,
-    molecular,
-    quantum,
-    code,
-    select,
+    chat, interactive, doctor, plugins, agent,
+    config, history, research, molecular, quantum,
+    code, select, ask, mcp, costs, license, aicl,
 )
 
 __all__ = [
-    "chat",
-    "interactive",
-    "doctor",
-    "plugins",
-    "agent",
-    "config_cmd",
-    "history",
-    "research",
-    "molecular",
-    "quantum",
-    "code",
-    "select",
+    "chat", "interactive", "doctor", "plugins", "agent",
+    "config", "history", "research", "molecular", "quantum",
+    "code", "select", "ask", "mcp", "costs", "license", "aicl",
 ]
